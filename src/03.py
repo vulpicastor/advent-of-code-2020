@@ -3,15 +3,14 @@ import numpy as np
 def count_trees(maze, dx, dy):
     x_lim = len(maze)
     y_lim = len(maze[0])
-    move = np.array([dx, dy])
-    start = np.copy(move)
+    x = dx
+    y = dy
     num_trees = 0
-    while start[0] < x_lim:
-        x = start[0]
-        y = start[1] % y_lim
-        if maze[x][y] == '#':
+    while x < x_lim:
+        if maze[x][y % y_lim] == '#':
             num_trees += 1
-        start += move
+        x += dx
+        y += dy
     return num_trees
 
 
