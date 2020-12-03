@@ -1,14 +1,12 @@
-import io
-import re
 import numpy as np
 
 def count_trees(maze, dx, dy):
-    limit = len(maze)
+    x_lim = len(maze)
     y_lim = len(maze[0])
     move = np.array([dx, dy])
     start = np.copy(move)
     num_trees = 0
-    while start[0] < limit:
+    while start[0] < x_lim:
         x = start[0]
         y = start[1] % y_lim
         if maze[x][y] == '#':
@@ -18,7 +16,7 @@ def count_trees(maze, dx, dy):
 
 
 def main():
-    with open("03.txt") as f:
+    with open("../input/03.txt") as f:
         maze = f.readlines()
     maze = [s.strip() for s in maze]
     check_list = [
