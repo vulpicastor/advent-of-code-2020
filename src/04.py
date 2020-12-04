@@ -17,40 +17,37 @@ def parse(line):
 
 
 def hgt_check(hgt):
-    if len(hgt) < 3:
+    if (m := re.fullmatch(r'([0-9]+)(in|cm)', hgt)) is None:
         return False
-    if hgt[-2:] == 'cm':
-        return 150 <= int(hgt[:-2]) <= 193
-    if hgt[-2:] == 'in':
-        return 59 <= int(hgt[:-2]) <= 76
+    v, u = m.group(1, 2)
+    if u == 'cm':
+        return 150 <= int(v) <= 193
+    if u  == 'in':
+        return 59 <= int(v) <= 76
     return False
 
+def range_check(low, high):
+    return lambda s: low <= int(s) <= high
+
+def re_check(regex):
+    return lambda s: re.fullmatch(regex, s) is not None
+
 FIELDS = {
-    "byr": lambda s: True if 1920 <= int(s) <= 2002 else False,
-    "iyr": lambda s: True if 2010 <= int(s) <= 2020 else False,
-    "eyr": lambda s: True if 2020 <= int(s) <= 2030 else False,
+    "byr": range_check(1920, 2002),
+    "iyr": range_check(2010, 2020),
+    "eyr": range_check(2020, 2030),
     "hgt": hgt_check,
-    "hcl": lambda s: re.match(r'^#[0-9a-f]{6}$', s),
+    "hcl": re_check(r'#[0-9a-f]{6}'),
     "ecl": lambda s: s in {'amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth'},
-    "pid": lambda s: re.match(r'^[0-9]{9}$', s),
+    "pid": re_check(r'[0-9]{9}'),
     # "cid",
 }
 
 
 def main():
     with open("../input/04.txt") as f:
-        lines = [l.strip() for l in f.readlines()]
-    passports = []
-    buffer = []
-    for l in lines:
-        if not l:
-            if buffer:
-                passports.append(" ".join(buffer))
-                buffer = []
-            continue
-        buffer.append(l)
-    if buffer:
-        passports.append(" ".join(buffer))
+        text = f.read()
+    passports = re.split(r'\n\n+', text)
     results = [check(parse(l)) for l in passports]
     print("Total #:", len(passports))
     part1, part2 = np.sum(np.array(results), axis=0)
