@@ -1,4 +1,5 @@
 import numpy as np
+import timeit
 
 def count_trees(maze, dx, dy):
     x_lim = len(maze)
@@ -25,7 +26,15 @@ def main():
         [1, 7],
         [2, 1],
     ]
+    timeit_num = 1000
+    print(
+        timeit.timeit(lambda: count_trees(maze, 1, 3), number=timeit_num)
+        / timeit_num)
     print(count_trees(maze, 1, 3))
+    print(timeit.timeit(
+        lambda: np.product([count_trees(maze, *l) for l in check_list]),
+        number=1000,
+    ) / timeit_num)
     print(np.product([count_trees(maze, *l) for l in check_list]))
 
 main()
