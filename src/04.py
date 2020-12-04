@@ -1,25 +1,20 @@
-import collections
-import functools
-import itertools
-import operator as op
-import os
-import sys
 import re
-import timeit
 
 import numpy as np
 
+
 def check(passport):
+    valid_field = True
     for f, g in FIELDS.items():
         if f not in passport:
-            return False
+            return False, False
         if not g(passport[f]):
-            return False
-        print(f, passport[f])
-    return True
+            valid_field = False
+    return True, valid_field
 
 def parse(line):
     return {k: v for k, v in (p.split(':') for p in line.split())}
+
 
 def hgt_check(hgt):
     if len(hgt) < 3:
@@ -41,9 +36,9 @@ FIELDS = {
     # "cid",
 }
 
+
 def main():
     with open("../input/04.txt") as f:
-    # with open("input.txt") as f:
         lines = [l.strip() for l in f.readlines()]
     passports = []
     buffer = []
@@ -56,12 +51,11 @@ def main():
         buffer.append(l)
     if buffer:
         passports.append(" ".join(buffer))
-    # print(passports)
-    print(parse(l))
     results = [check(parse(l)) for l in passports]
-    print('\n'.join(map(str, zip(results, passports))))
-    print(len(passports))
-    print(sum(results))
+    print("Total #:", len(passports))
+    part1, part2 = np.sum(np.array(results), axis=0)
+    print(f"Valid for Part 1: {part1}")
+    print(f"Valid for Part 2: {part2}")
 
 if __name__ == "__main__":
     main()
