@@ -1,10 +1,14 @@
+#!/usr/bin/python3
+
+import re
+
 import numpy as np
 
+
 def decode_seat(seat):
-    row, col = seat[:7], seat[7:]
-    row = int('0b' + ''.join('1' if s == 'b' else '0' for s in row.lower()), base=2)
-    col = int('0b' + ''.join('1' if s == 'r' else '0' for s in col.lower()), base=2)
-    return row, col, row * 8 + col
+    seat = re.sub(r'[BR]', '1', seat)
+    seat = re.sub(r'[FL]', '0', seat)
+    return int(seat, base=2)
 
 def main():
     with open("../input/05.txt") as f:
@@ -15,11 +19,12 @@ def main():
         'BBFFBBFRLL',
     ]
     print(list(map(decode_seat, seats)))
-    print(list(map(decode_seat, lines)))
-    ids = list(decode_seat(s)[2] for s in lines)
-    print(max(ids))
-    ids.sort()
-    ids = np.array(ids)
+    # print(list(map(decode_seat, lines)))
+    ids = list(map(decode_seat, lines))
+    ids = np.sort(ids)
+    print("Part 1:")
+    print(ids[-1])
+    print("Part 2:")
     print(ids[:-1][np.diff(ids) == 2] + 1)
     
 
