@@ -41,7 +41,7 @@ def chinese_remainder(pairs):
     return res
 
 def main():
-    with open("../input/13try.txt") as f:
+    with open("input/13try.txt") as f:
         lines = [l.strip() for l in f.readlines()]
     # departure = int(lines[0])
     buses = []

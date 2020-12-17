@@ -29,7 +29,7 @@ def run_code(instructions):
 
 
 def main():
-    with open("../input/08.txt") as f:
+    with open("input/08.txt") as f:
         lines = [l.strip().split() for l in f.readlines()]
     length = len(lines)
     print(run_code(lines))

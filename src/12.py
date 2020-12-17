@@ -66,7 +66,7 @@ def iter_cmd2(cmds):
 
 
 def main():
-    with open("../input/12.txt") as f:
+    with open("input/12.txt") as f:
         lines = [l.strip() for l in f.readlines()]
     cmds = [(l[0], int(l[1:])) for l in lines]
     pos, _ = iter_cmd(cmds)

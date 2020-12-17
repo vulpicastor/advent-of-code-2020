@@ -31,7 +31,7 @@ def dfs_visit(node, dest):
 
 
 def main():
-    with open("../input/10.txt") as f:
+    with open("input/10.txt") as f:
         lines = [int(l.strip()) for l in f.readlines()]
     lines.append(0)
     lines.sort()

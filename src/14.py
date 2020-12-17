@@ -66,7 +66,7 @@ def iter_prog2(prog):
     return mem, or_mask, and_mask, floating
 
 def main():
-    with open("../input/14.txt") as f:
+    with open("input/14.txt") as f:
         lines = [l.strip().split(' = ') for l in f.readlines()]
     mem, _, _ = iter_prog(lines)
     print(sum(mem.values()))

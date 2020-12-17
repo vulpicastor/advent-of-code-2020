@@ -170,7 +170,7 @@ def iter_seats2_fast(seats):
     return new_seats
 
 def main():
-    with open("../input/11.txt") as f:
+    with open("input/11.txt") as f:
         seats = [list(l.strip()) for l in f.readlines()]
     long_repeat = 1
     short_repeat = 1

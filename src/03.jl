@@ -18,7 +18,7 @@ end
 
 
 function main()
-    lines = open("../input/03.txt", "r") do io
+    lines = open("input/03.txt", "r") do io
         map(strip, readlines(io))
     end
     maze = hcat(Array(l) for l in lines) .== '#'

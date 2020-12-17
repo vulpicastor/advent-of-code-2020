@@ -61,7 +61,7 @@ function find_triplet_sum(num_list::Array{T}, try_sum::T) where {T<:Number}
 end
 
 function main()
-    num_list = open("../input/01.txt", "r") do io
+    num_list = open("input/01.txt", "r") do io
         map(s->tryparse(Int, s), readlines(io))
     end
 

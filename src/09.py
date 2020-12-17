@@ -36,7 +36,7 @@ def rollsum(nums, sumto):
 
 
 def main():
-    with open("../input/09.txt") as f:
+    with open("input/09.txt") as f:
         lines = [int(l.strip()) for l in f.readlines()]
     weaksum = checklist(lines, 25)
     print(weaksum)

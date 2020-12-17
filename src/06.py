@@ -4,7 +4,7 @@ import functools
 import operator as op
 
 def main():
-    with open("../input/06.txt") as f:
+    with open("input/06.txt") as f:
         lines = f.read()
     groups = lines.split('\n\n')
     bits = []

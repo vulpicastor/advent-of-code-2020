@@ -35,7 +35,7 @@ def dfs_count(node, visited=dict()):
 
 
 def main():
-    with open("../input/07.txt") as f:
+    with open("input/07.txt") as f:
         lines = [l.strip().split(' contain ') for l in f.readlines()]
     graph1 = collections.defaultdict(Node)
     graph2 = collections.defaultdict(Node)

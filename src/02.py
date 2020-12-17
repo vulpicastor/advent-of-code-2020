@@ -22,7 +22,7 @@ def check_line(l, func):
     return func(*parse_policy(policy), s)
 
 def main():
-    with open('../input/02.txt') as f:
+    with open('input/02.txt') as f:
         lines = f.readlines()
     print(sum(map(lambda s: check_line(s, check_policy), lines)))
     print(sum(map(lambda s: check_line(s, check_policy_two), lines)))

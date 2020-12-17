@@ -45,7 +45,7 @@ FIELDS = {
 
 
 def main():
-    with open("../input/04.txt") as f:
+    with open("input/04.txt") as f:
         text = f.read()
     passports = re.split(r'\n\n+', text)
     results = [check(parse(l)) for l in passports]

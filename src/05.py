@@ -11,7 +11,7 @@ def decode_seat(seat):
     return int(seat, base=2)
 
 def main():
-    with open("../input/05.txt") as f:
+    with open("input/05.txt") as f:
         lines = [l.strip() for l in f.readlines()]
     seats = [
         'BFFFBBFRRR',

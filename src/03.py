@@ -16,7 +16,7 @@ def count_trees(maze, dx, dy):
 
 
 def main():
-    with open("../input/03.txt") as f:
+    with open("input/03.txt") as f:
         maze = f.readlines()
     maze = [s.strip() for s in maze]
     check_list = [
