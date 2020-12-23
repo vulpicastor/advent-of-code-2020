@@ -14,31 +14,31 @@ class Cup(object):
 
     def __str__(self):
         return f"Cup({self.v})"
-    
+
     def __repr__(self):
         return f"Cup({self.v}, {self.next!s}, {self.dec!s})"
-    
+
     def __init__(self, value, next_node=None, dec_node=None):
         self.v = value
         self.next = next_node
         self.dec = dec_node
-    
+
     def __iter__(self):
         current = self
         yield current
         while current.next is not None and current.next is not self:
             current = current.next
             yield current
-    
+
     def insert_after(self, node):
         self.next = node.next
         node.next = self
-    
+
     def pop_after(self):
         popped = self.next
         self.next = popped.next
         return popped
- 
+
     def append(self, value):
         self.next = Cup(value, self, None)
         return self.next
@@ -48,7 +48,7 @@ def pop_cups_after(node, num=1):
     for _ in range(num):
         popped.append(node.pop_after())
     return popped
-    
+
 def insert_cups(insert_after, cups):
     for c in cups:
         c.insert_after(insert_after)
