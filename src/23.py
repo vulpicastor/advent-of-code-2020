@@ -16,16 +16,11 @@ class Cup(object):
         return f"Cup({self.v})"
     
     def __repr__(self):
-        return f"Cup({self.v}, {self.prev!s}, {self.next!s}, {self.dec!s})"
+        return f"Cup({self.v}, {self.next!s}, {self.dec!s})"
     
-    def __init__(self, value, prev_node=None, next_node=None, dec_node=None):
+    def __init__(self, value, next_node=None, dec_node=None):
         self.v = value
-        self.prev = prev_node
-        if self.prev is not None:
-            self.prev.next = self
         self.next = next_node
-        if self.next is not None:
-            self.next.prev = self
         self.dec = dec_node
     
     def __iter__(self):
@@ -36,28 +31,22 @@ class Cup(object):
             yield current
     
     def insert_after(self, node):
-        self.prev = node
         self.next = node.next
         node.next = self
-        if self.next is not None:
-            self.next.prev = self
     
-    def pop(self):
-        if self.prev is not None:
-            self.prev.next = self.next
-        if self.next is not None:
-            self.next.prev = self.prev
-        return self
-    
+    def pop_after(self):
+        popped = self.next
+        self.next = popped.next
+        return popped
+ 
     def append(self, value):
         self.next = Cup(value, self, None)
         return self.next
 
-def pop_cups(node, num=1):
+def pop_cups_after(node, num=1):
     popped = []
     for _ in range(num):
-        popped.append(node.pop())
-        node = node.next
+        popped.append(node.pop_after())
     return popped
     
 def insert_cups(insert_after, cups):
@@ -76,7 +65,7 @@ def find_value(start_at, value):
 def big_game(start_cup, min_val=1, max_val=1000000, steps=10000000):
     for _ in tqdm.tqdm(range(steps)):
         # print("".join(str(c.v) for c in start_cup))
-        popped = pop_cups(start_cup.next, 3)
+        popped = pop_cups_after(start_cup, 3)
         insert_at = start_cup.dec
         while insert_at in popped:
             insert_at = insert_at.dec
@@ -96,7 +85,6 @@ def create_list(from_list, total=None):
         next_node.dec = end_node
         end_node = next_node
     end_node.next = start_node
-    start_node.prev = end_node
     next_node = start_node
     the_one = None
     for _ in range(len(from_list)+1):
