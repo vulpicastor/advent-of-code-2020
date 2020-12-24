@@ -1,14 +1,7 @@
 #!/usr/bin/python3
 
-import collections
-import copy
-import functools
-import itertools
-import operator as op
-import re
-
 import numpy as np
-import tqdm
+
 
 MOVEMENT = {
     "e": np.array([1, 0]),
@@ -18,6 +11,7 @@ MOVEMENT = {
     "nw": np.array([-1, 1]),
     "se": np.array([1, -1]),
 }
+
 
 def parse_tile(line):
     save = ""
@@ -31,24 +25,25 @@ def parse_tile(line):
             save = ""
     return pos
 
+
 def step_conway(grid):
     new_shape = np.array(grid.shape) + np.array([2, 2])
     new_grid = np.zeros(new_shape, dtype=bool)
     new_grid[1:-1, 1:-1] = grid
     count_neigh = np.zeros_like(new_grid, dtype=np.int)
     for dx, dy in MOVEMENT.values():
-        # if dz == 0 and dy == 0 and dx == 0:
-            # continue
         count_neigh[1+dy:new_shape[0]-1+dy,
                     1+dx:new_shape[1]-1+dx] += grid
     new_grid = (new_grid & (0 < count_neigh) & (count_neigh <= 2)) | (~new_grid & (count_neigh == 2))
     return new_grid, count_neigh
+
 
 def iter_conway(init_grid, iter, step_func=step_conway):
     new_grid = init_grid
     for _ in range(iter):
         new_grid, _ = step_func(new_grid)
     return new_grid
+
 
 def main():
     with open("input/24.txt") as f:
@@ -69,6 +64,7 @@ def main():
         index = np.array(list(reversed(pos))) + init_offset
         init_grid[tuple(index)] = True
     print(np.sum(iter_conway(init_grid, 100)))
+
 
 if __name__ == "__main__":
     main()
