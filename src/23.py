@@ -1,11 +1,7 @@
 #!/usr/bin/python3
 
 import collections
-import copy
-import functools
 import itertools
-import operator as op
-import re
 
 import tqdm
 
@@ -62,7 +58,7 @@ def find_value(start_at, value):
     return start_at
 
 
-def big_game(start_cup, min_val=1, max_val=1000000, steps=10000000):
+def big_game(start_cup, steps=10000000):
     for _ in tqdm.tqdm(range(steps)):
         # print("".join(str(c.v) for c in start_cup))
         popped = pop_cups_after(start_cup, 3)
@@ -106,7 +102,7 @@ def main():
     # puzzle_input = [3, 8, 9, 1, 2, 5, 4, 6, 7]
     puzzle_input = [7, 8, 9, 4, 6, 5, 1, 2, 3]
     start_node, the_one = create_list(puzzle_input)
-    _ = big_game(start_node, max_val=max(puzzle_input), steps=100)
+    _ = big_game(start_node, steps=100)
     print(puzzle_input)
     print("".join(str(c.v) for c in the_one))
 
