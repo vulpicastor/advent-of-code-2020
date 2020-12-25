@@ -26,27 +26,19 @@ def partwo(valids, ranges):
     num_headers = ranges.shape[0] // 2
     reshaped_results = results.reshape((num_headers, 2) + valids.shape)
     header_by_field = np.all(np.any(reshaped_results, axis=1), axis=1)
-    # header_to_check = list(range(reshaped_results.shape[0]))
     header_to_field = np.zeros(num_headers, dtype=np.int)
-    # num_headers=3
     for _ in range(num_headers):
-        print(header_by_field)
+        # Iteratively, find the only column with one True, and set that entire
+        # row to False.
         header, fields = np.nonzero(header_by_field)
-        # print(header, fields)
-        # print(np.argwhere(np.bincount(fields)==1))
         unique_fields, first_occur, match_header_counts = np.unique(
             fields, return_index=True, return_counts=True)
-        print(unique_fields)
-        print(first_occur)
-        print(match_header_counts, np.argmin(match_header_counts))
         found_unique_index = np.argmin(match_header_counts)
         found_unique_field = unique_fields[found_unique_index]
         found_unique_header = header[first_occur[found_unique_index]]
-        print(found_unique_header, found_unique_field)
         header_to_field[found_unique_header] = found_unique_field
         header_by_field[found_unique_header, :] = False
         header_by_field[:, found_unique_field] = False
-        print(header_to_field)
     return header_to_field
 
 def check_ranges(num, ranges):
@@ -62,22 +54,18 @@ def parse_rules(rules):
     return ranges, headers
 
 def main():
-    with open('input/16try.txt') as f:
+    with open('input/16.txt') as f:
         rules, your, nearby = f.read().split('\n\n')
     ranges, headers = parse_rules(rules)
     print(headers)
     your = your.split('\n')[1]
     your = np.array(list(map(int, your.split(','))))
-    print(your)
     nearby = nearby.strip().split('\n')
     nearby = [list(map(int, t.split(','))) for t in nearby[1:]]
-    # print(nearby)
-    # print(sum(partone(nearby, ranges)))
+    print(sum(partone(nearby, ranges)))
     valids = np.array(parttwo_filter(nearby, ranges))
     np.set_printoptions(linewidth=150)
     header_to_field = partwo(valids, ranges)
-    print(header_to_field)
-    print(your[header_to_field])
     print(np.product(your[header_to_field][:6]))
 
 
